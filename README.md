@@ -2,8 +2,8 @@
 
 ## Employee Attrition Prediction
 
-**Natasha Virna Arthilita** — *5003231020*
-**Violita Inggar Ariana** — *5003231021*
+**Natasha Virna Arthilita** — *5003231020*  
+**Violita Inggar Ariana** — *5003231021*  
 **Fahmadina Sophia** — *5003231122*
 
 ## 🗂️ Daftar Isi
