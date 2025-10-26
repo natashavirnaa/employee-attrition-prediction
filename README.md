@@ -81,4 +81,39 @@ Berdasarkan hal tersebut, pernyataan masalah yang diangkat dalam proyek ini adal
 2. **Pernyataan Masalah 2:** Bagaimana membangun model prediktif yang mampu memperkirakan kemungkinan seorang karyawan akan keluar dengan akurasi yang tinggi?  
 3. **Pernyataan Masalah 3:** Bagaimana memanfaatkan hasil analisis tersebut untuk merumuskan strategi retensi karyawan yang efektif dan berbasis data?
 
+### Goals
+Untuk menjawab pernyataan masalah di atas, tujuan proyek ini adalah:  
+1. **Tujuan 1:** Melakukan eksplorasi dan analisis terhadap data karyawan untuk menemukan pola dan variabel yang berkorelasi dengan perilaku attrition.
+2. **Tujuan 2:** Membangun model prediktif berbasis machine learning untuk menghitung probabilitas seorang karyawan akan keluar dari perusahaan.
+3. **Tujuan 3:** Menyediakan insight dan rekomendasi strategis yang dapat membantu manajemen dalam meningkatkan retensi karyawan dan menciptakan lingkungan kerja yang lebih produktif.
+
+### Solution Statements
+Untuk mencapai tujuan tersebut, solusi yang akan diterapkan meliputi:  
+- **Eksperimen dengan Berbagai Algoritma Klasifikasi**
+  Membangun dan membandingkan performa beberapa algoritma seperti:
+  - Logistic Regression
+  - Random Forest
+  - XGBoost / LightGBM
+- **Optimasi Model dengan Hyperparameter Tuning**
+  Menggunakan pendekatan seperti Grid Search atau Optuna (Bayesian Optimization) untuk menemukan konfigurasi parameter terbaik.
+- **Evaluasi Model dengan Metrik yang Relevan**
+  Menerapkan metrik evaluasi seperti:
+  - Accuracy — untuk mengukur kinerja keseluruhan model.
+  - Precision, Recall, dan F1-Score — untuk menilai performa pada kelas minoritas (attrition).
+  - ROC-AUC — untuk mengevaluasi kemampuan model dalam membedakan karyawan yang bertahan dan keluar.
+  - Confusion Matrix — untuk memvisualisasikan hasil prediksi model.
+- **Analisis Fitur Dan visualisasi**
+  Menyajikan visualisasi seperti feature importance dan correlation heatmap untuk menginterpretasikan fitur-fitur utama yang berkontribusi pada analisis.
+
+### Project Benefit
+Dengan implementasi solusi ini, manfaat yang diharapkan antara lain:
+- **Efisiensi Biaya SDM:** Mengurangi biaya rekrutmen dan pelatihan akibat tingginya turnover.
+- **Peningkatan Retensi Karyawan:** Mengidentifikasi dan menindaklanjuti karyawan dengan risiko tinggi untuk keluar.
+- **Pengambilan Keputusan Berbasis Data:** Membantu manajemen dalam menyusun strategi retensi dan kebijakan HR yang lebih tepat sasaran.
+- **Perbaikan Lingkungan Kerja:** Memberikan insight terhadap faktor-faktor yang menyebabkan ketidakpuasan dan menurunkan motivasi kerja.
+- **Produktivitas yang Lebih Stabil:** Menjaga kontinuitas tim dan mengurangi dampak negatif dari pergantian karyawan.
+
+
+
+
 
