@@ -62,13 +62,23 @@ Dataset yang digunakan dalam proyek ini mencakup berbagai aspek profil karyawan,
 ---
 
 **Referensi**
-<small>
-[1] Dessler, G. (2020). *Human Resource Management* (16th ed.). Pearson Education.  
-[2] Cascio, W. F. (2015). *Managing Human Resources: Productivity, Quality of Work Life, Profits* (10th ed.). McGraw-Hill Education.  
-[3] Nguyen, T., & Duong, M. (2021). “Predicting Employee Turnover Using Machine Learning Techniques.” *Journal of Human Resource Analytics,* 5(3), 45–57.  
-[4] IBM HR Analytics Employee Attrition & Performance Dataset (2019). *Kaggle.*  
-[https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset](https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset)
-</small>
+<div style="font-size: 10px; line-height: 1.6; margin-left: 10px;">
+[1] Dessler, G. (2020). <i>Human Resource Management</i> (16th ed.). Pearson Education.<br>
+[2] Cascio, W. F. (2015). <i>Managing Human Resources: Productivity, Quality of Work Life, Profits</i> (10th ed.). McGraw-Hill Education.<br>
+[3] Nguyen, T., & Duong, M. (2021). “Predicting Employee Turnover Using Machine Learning Techniques.” <i>Journal of Human Resource Analytics,</i> 5(3), 45–57.<br>
+[4] IBM HR Analytics Employee Attrition & Performance Dataset (2019). <i>Kaggle.</i><br>
+<a href="https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset">https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset</a>
+</div>
 
 ---
+
+## Business Understanding
+### Problem Statemnents
+Dalam dunia kerja modern, setiap perusahaan berusaha mempertahankan karyawan berprestasi untuk menjaga stabilitas operasional dan daya saing. Namun, tingginya tingkat employee attrition atau turnover menjadi tantangan serius bagi manajemen sumber daya manusia. Fenomena ini dapat menyebabkan peningkatan biaya rekrutmen dan pelatihan, penurunan produktivitas, serta menurunnya moral kerja tim secara keseluruhan.
+
+Berdasarkan hal tersebut, pernyataan masalah yang diangkat dalam proyek ini adalah sebagai berikut: 
+1. **Pernyataan Masalah 1:** Bagaimana mengidentifikasi faktor-faktor utama yang memengaruhi keputusan karyawan untuk keluar dari perusahaan?  
+2. **Pernyataan Masalah 2:** Bagaimana membangun model prediktif yang mampu memperkirakan kemungkinan seorang karyawan akan keluar dengan akurasi yang tinggi?  
+3. **Pernyataan Masalah 3:** Bagaimana memanfaatkan hasil analisis tersebut untuk merumuskan strategi retensi karyawan yang efektif dan berbasis data?
+
 
