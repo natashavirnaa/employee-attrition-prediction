@@ -759,3 +759,48 @@ Model terbaik yang terpilih dalam proses pemodelan **Employee Attrition Predicti
 Hal ini menunjukkan bahwa model **tidak mengalami *overfitting*** dan memiliki **stabilitas prediksi yang baik** dalam membedakan antara karyawan yang **berpotensi keluar (attrition)** dan **yang bertahan**.
 Hasil ini juga akan lebih baik dibanding model ensemble yang hanya memberikan AUC 0,8325. Model ini menggunakan class_weight, bukan SMOTE, sehingga model tetap belajar pola asli tanpa oversampling sintesis.
 
+## Conclution
+### Ringkasan Proyek
+Dalam proyek ini, telah dikembangkan sebuah model klasifikasi berbasis Bagging (Logistic Regression Base) untuk memprediksi kemungkinan karyawan mengalami attrition (keluar dari perusahaan).
+Tujuan utama proyek ini adalah untuk menghasilkan prediksi yang akurat terhadap risiko attrition, mengidentifikasi faktor-faktor utama yang memengaruhi keputusan karyawan untuk keluar, serta memberikan rekomendasi strategis bagi perusahaan dalam meningkatkan retensi karyawan.
+Dengan adanya model ini, perusahaan dapat menyusun strategi pencegahan yang lebih terarah dan efisien, mengingat bahwa mempertahankan karyawan yang berpengalaman lebih bernilai daripada merekrut karyawan baru.
+
+### Hasil Dan Evaluasi Model
+Permasalahan bisnis yang diangkat telah berhasil diselesaikan dengan baik.
+Setelah melalui proses pelatihan dan validasi berbagai algoritma, model terbaik yang terpilih adalah Bagging (Logistic Regression Base) dengan hasil sebagai berikut:
+
+Validation AUC: 0.8345
+AUC Gap (Train – Validation): 0.0020
+
+Nilai AUC yang relatif tinggi dan selisih (gap) yang sangat kecil menunjukkan bahwa model memiliki kemampuan generalisasi yang baik dan tidak mengalami overfitting.
+Artinya, model ini dapat memisahkan dengan cukup akurat antara karyawan yang berpotensi keluar dan yang tetap bertahan.
+Model ini juga menunjukkan peningkatan kinerja dibandingkan model ensemble lain yang hanya mencapai AUC sebesar 0.8325, menandakan bahwa kombinasi Bagging dengan basis Logistic Regression adalah solusi yang optimal untuk kasus ini.
+
+### Penanganan Ketidakseimbangan Data
+Masalah ketidakseimbangan kelas pada variabel target ditangani menggunakan pendekatan class_weight alih-alih metode oversampling seperti SMOTE.
+Pendekatan ini dipilih agar model tetap belajar dari distribusi data yang alami, sehingga hasil prediksi tetap representatif terhadap kondisi dunia nyata.
+Selain itu, proses pelatihan juga melibatkan Stratified train-test split dan validasi silang (cross-validation) untuk menjaga proporsi kelas dan meningkatkan reliabilitas hasil evaluasi.
+
+### Interpretasi dan Validasi Mode
+Interpretasi model dilakukan menggunakan analisis feature importance dan teknik SHAP (SHapley Additive Explanations) untuk memahami kontribusi setiap fitur terhadap probabilitas attrition.
+Hasil interpretasi menunjukkan bahwa fitur-fitur seperti OverTime, MonthlyIncome, TotalWorkingYears, JobLevel, dan Age merupakan faktor yang paling berpengaruh terhadap risiko attrition.
+Temuan ini sejalan dengan analisis eksploratif sebelumnya, yang mengindikasikan bahwa beban kerja tinggi, gaji rendah, dan masa kerja singkat merupakan pemicu utama karyawan untuk meninggalkan perusahaan.
+Model juga menunjukkan stabilitas hasil probabilitas yang konsisten dan masuk akal, memperkuat keyakinan terhadap reliabilitas prediksi yang dihasilkan.
+
+### Estimasi Nilai Finansial
+Berdasarkan estimasi awal, model ini memiliki potensi memberikan *dampak finansial positif* yang signifikan.  
+Jika diasumsikan biaya kehilangan satu karyawan setara dengan *1.5 kali gaji tahunan*, maka penerapan strategi retensi  
+berbasis model ini dapat membantu perusahaan menghemat biaya hingga *puluhan ribu dolar per tahun* tergantung pada jumlah turnover aktual.  
+
+Dengan demikian, hasil ini tidak hanya memberikan insight analitis, tetapi juga dasar kuat untuk justifikasi ekonomi  
+dalam pengambilan keputusan bisnis terkait retensi karyawan.
+
+---
+
+### Langkah Selanjutnya
+Tahapan lanjutan yang direkomendasikan adalah:
+
+1. Deploy model ke lingkungan produksi, menggunakan pendekatan Continuous Integration/Continuous Deployment (CI/CD) agar model dapat digunakan secara otomatis dan berkelanjutan.
+2. Monitoring performa model secara berkala untuk mendeteksi penurunan akurasi akibat perubahan pola data (data drift).
+3. Integrasi dengan dashboard HR Analytics agar tim HR dapat memantau risiko attrition secara real-time dan mengambil tindakan preventif lebih cepat.
+4. Eksperimen lanjutan menggunakan model explainable AI seperti LIME atau SHAP summary untuk memperdalam pemahaman terhadap faktor risiko pada tingkat individu.
