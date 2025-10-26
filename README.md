@@ -315,7 +315,7 @@ Beberapa variabel lain seperti **TotalWorkingYears (52 *outlier*)** dan **YearsA
 
 ### [Exploratory Data Analysis] - Univariate Analysis
 #### Grafik 1 : Distribusi Kategori Employee Attrition
-![Distribusi Kategori Employee Attrition] (https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/EDA%201%20-%20Distribusi%20Kategori%20Employee-Attrition.png)
+![Distribusi Kategori Employee-Attrition](https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/EDA%201%20-%20Distribusi%20Kategori%20Employee-Attrition.png?raw=true)
 
 Distribusi variabel **Attrition** menunjukkan bahwa sebagian besar karyawan **tidak keluar dari perusahaan (sekitar 84%)**, sedangkan hanya sekitar **16% yang mengalami attrition (keluar)**.  
 Kondisi ini **menandakan adanya ketidakseimbangan kelas** yang cukup besar antara karyawan yang bertahan dan yang keluar, yang dapat **mempengaruhi performa model prediksi**.  
