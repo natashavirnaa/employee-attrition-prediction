@@ -328,7 +328,48 @@ Untuk mengatasi hal tersebut, dilakukan beberapa strategi berikut:
 3. **Evaluasi dengan Metrik Sensitif terhadap Ketidakseimbangan**  
    Penggunaan metrik seperti **Recall**, *F1-Score*, dan **ROC-AUC** difokuskan agar model tidak hanya akurat pada kelas mayoritas, tetapi juga mampu mengenali pola karyawan yang berpotensi keluar.
 
+#### Grafik 2 : Distribusi Fitur Numerik
+![Distribusi Fitur Numerik](https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/EDA%202%20-%20Distribusi%20Fitur%20Numerik.png?raw=true)
 
+- Sebagian besar karyawan berada pada **rentang usia 30–40 tahun**, dengan distribusi yang relatif normal.  
+  Pendapatan bulanan (*MonthlyIncome*) dan total tahun bekerja (*TotalWorkingYears*) menunjukkan **distribusi miring ke kanan**, menandakan hanya sebagian kecil karyawan dengan gaji dan masa kerja tinggi.  
+- Variabel seperti *DailyRate*, *MonthlyRate*, dan *HourlyRate* tampak menyebar merata, sementara *PerformanceRating* dan *StandardHours* cenderung **konstan** dengan sedikit variasi.  
+  Fitur seperti *EnvironmentSatisfaction*, *JobSatisfaction*, dan *RelationshipSatisfaction* memiliki distribusi yang **hampir seragam antar kategori**, menunjukkan persebaran tingkat kepuasan yang beragam di antara karyawan.  
+- Beberapa fitur seperti *YearsAtCompany*, *YearsInCurrentRole*, dan *YearsSinceLastPromotion* memiliki **bentuk distribusi menurun tajam**, menandakan banyak karyawan yang baru bekerja atau belum lama dipromosikan.  
+  Temuan ini memberikan gambaran umum bahwa struktur tenaga kerja didominasi oleh karyawan dengan masa kerja menengah, tingkat kepuasan yang bervariasi, serta distribusi pendapatan yang tidak merata.
+
+#### Grafik 3 : Distribusi Variabel Kategorik
+![Distribusi Variabel Kategorik](https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/EDA%203%20-%20Distribusi%20Variabel%20Kategorik.png?raw=true)
+Mayoritas karyawan bekerja di **Departemen Research & Development**, diikuti oleh **Sales**, sedangkan **Human Resources** menjadi departemen dengan jumlah karyawan paling sedikit.  
+Sebagian besar karyawan **jarang melakukan perjalanan dinas** (*Travel_Rarely*) dan memiliki latar belakang pendidikan di bidang **Life Sciences** atau **Medical**.  
+
+Dari sisi demografi, karyawan laki-laki tercatat sedikit lebih banyak dibandingkan perempuan, dan sebagian besar **berstatus menikah**. Dalam kategori pekerjaan (*JobRole*), posisi **Sales Executive** dan **Research Scientist** merupakan yang paling dominan. Selain itu, hampir seluruh karyawan berusia di atas **18 tahun (*Over18 = Y*)**, dan sebagian besar **tidak bekerja lembur (*OverTime = No*)**.  
+
+Secara keseluruhan, temuan ini menggambarkan bahwa **struktur tenaga kerja perusahaan cukup beragam**, meskipun terdapat **ketidakseimbangan antar kategori** tertentu — seperti dominasi departemen **R&D** serta rendahnya proporsi karyawan yang melakukan lembur.  
+Kondisi ini dapat menjadi faktor yang **mempengaruhi hasil analisis attrition** pada tahap selanjutnya.  
+
+### [Exploratory Data Analysis] - Multivariate Analysis
+![Korelasi Fitur Numerik](https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/EDA%204%20-%20Korelasi%20Fitur%20Numerik.png?raw=true)
+- **OverTime** memiliki **korelasi positif tertinggi**, yang menunjukkan bahwa karyawan yang sering lembur cenderung memiliki risiko lebih tinggi untuk keluar dari perusahaan.  
+- Fitur seperti **MonthlyIncome**, **TotalWorkingYears**, dan **JobLevel** menunjukkan **korelasi negatif** terhadap *attrition* — semakin tinggi pendapatan, pengalaman kerja, dan level jabatan, semakin kecil kemungkinan karyawan untuk keluar.  
+- **Age** juga memiliki korelasi negatif, yang mengindikasikan bahwa karyawan yang lebih tua cenderung bertahan lebih lama dibandingkan karyawan yang lebih muda.  
+- Sebaliknya, **DistanceFromHome** memiliki **korelasi positif kecil**, yang berarti jarak tempat tinggal yang lebih jauh dari kantor sedikit meningkatkan risiko *attrition*.  
+- Selain itu, korelasi antar beberapa fitur seperti **MonthlyIncome** dan **JobLevel** cukup tinggi, menunjukkan adanya potensi **redundansi antar variabel** yang berhubungan dengan pendapatan dan posisi kerja.  
+
+![BoxPlot Distribusi Variabel Numerik](https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/EDA%205%20-%20BoxPlot%20Distribusi%20Variabel%20Numerik.png?raw=true)
+Berdasarkan hasil boxplot di atas, persebaran dari fitur numerik terhadap variabel *attrition* dapat dijelaskan sebagai berikut:  
+**Karyawan yang resign (*Attrition = 1*) cenderung memiliki:**  
+- **Usia lebih muda**, mayoritas berada pada rentang **25–35 tahun**, dibandingkan dengan karyawan yang bertahan yang umumnya berusia di atas 35 tahun.  
+- **Pendapatan lebih rendah**, baik dari sisi *MonthlyIncome*, *HourlyRate*, maupun *DailyRate*.  
+- **Level jabatan** (*JobLevel*) serta **total tahun bekerja** (*TotalWorkingYears*) yang lebih sedikit.  
+- **Masa kerja dengan manajer saat ini** (*YearsWithCurrManager*) dan **masa kerja di perusahaan** (*YearsAtCompany*) yang lebih pendek — menunjukkan tingkat loyalitas dan pengalaman yang lebih rendah.  
+- **Frekuensi promosi** (*YearsSinceLastPromotion*) yang lebih sedikit, mengindikasikan kemungkinan adanya ketidakpuasan karier.  
+- **Tingkat kepuasan kerja dan lingkungan** (*JobSatisfaction*, *EnvironmentSatisfaction*, *RelationshipSatisfaction*) yang umumnya lebih rendah dibandingkan dengan karyawan yang bertahan.  
+
+**Sementara itu, karyawan yang tidak mengalami attrition (*Attrition = 0*) cenderung:**  
+- **Berpenghasilan lebih tinggi** dengan variasi pendapatan yang lebih besar.  
+- **Memiliki masa kerja yang lebih panjang**, baik secara total maupun pada posisi saat ini.  
+- **Lebih sering mendapatkan kesempatan promosi** serta memiliki **tingkat kepuasan kerja yang lebih tinggi**.
 
 
 
