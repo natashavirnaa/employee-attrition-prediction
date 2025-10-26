@@ -8,7 +8,7 @@
 
 ## 🗂️ Daftar Isi
 
-1. [Domain Proyek: Keuangan](#1-domain-proyek-keuangan)  
+1. [Domain Proyek: Manajemen Sumber Daya](#1-domain-proyek-manajamen-sumber-daya)  
    - [Referensi](#referensi)  
 2. [Business Understanding](#2-business-understanding)  
    - [Problem Statements](#problem-statements)  
@@ -53,3 +53,5 @@
     - [Estimasi Nilai Finansial](#estimasi-nilai-finansial)  
     - [Langkah Selanjutnya](#langkah-selanjutnya)
 
+## Domain Proyek : Manajemen Sumber Daya
+![Employee Attrition](images/employee-attrition.png)
