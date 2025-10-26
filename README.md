@@ -747,3 +747,16 @@ Secara keseluruhan, *Bagging (Logistic Base)* memberikan keseimbangan optimal an
 ```python
 filename = '../model/Bagging_Logistic_Base__v1.pkl'
 ---
+## Model Interpretation
+Model terbaik yang terpilih pada proses pemodelan adalah :
+**Best Model:** `Bagging (Logistic Regression Base)`  
+- **Validation AUC:** 0.8345  
+- **AUC Gap (Train - Val):** 0.0020  
+- **Model Files:**
+  - Model utama: `models/Bagging_Logistic_Base__v1.pkl`
+  - Bundle lengkap: `models/best_model_bundle_v1.pkl`
+
+Model terbaik yang terpilih dalam proses pemodelan **Employee Attrition Prediction** adalah **Bagging dengan Logistic Regression Base**. Model ini mencapai **Validation AUC sebesar 0.8345** dengan **AUC gap yang sangat kecil (+0.0020)** antara data training dan validation.  
+Hal ini menunjukkan bahwa model **tidak mengalami *overfitting*** dan memiliki **stabilitas prediksi yang baik** dalam membedakan antara karyawan yang **berpotensi keluar (attrition)** dan **yang bertahan**.
+Hasil ini juga akan lebih baik dibanding model ensemble yang hanya memberikan AUC 0,8325. Model ini menggunakan class_weight, bukan SMOTE, sehingga model tetap belajar pola asli tanpa oversampling sintesis.
+
