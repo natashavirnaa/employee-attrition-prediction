@@ -451,9 +451,8 @@ Diterapkan **Target Encoding**, karena:
 
 #### Feature Engineering
 Untuk memperkuat kemampuan model dalam menangkap hubungan non-linear serta pola tersembunyi dalam data karyawan, dilakukan pembuatan sejumlah **fitur turunan**.  
-Fitur-fitur ini membantu meningkatkan interpretabilitas model dan memberikan konteks bisnis yang lebih kaya terhadap faktor penyebab *attrition*. 
-
-##### 🔹 Core Ratio Features
+Fitur-fitur ini membantu meningkatkan interpretabilitas model dan memberikan konteks bisnis yang lebih kaya terhadap faktor penyebab *attrition*.  
+**🔹 Core Ratio Features**
 Fitur-fitur rasio ini menggambarkan efisiensi, stabilitas, dan pengalaman kerja karyawan:
 ```text
 1. ExperienceRatio = YearsAtCompany / (TotalWorkingYears + 1)
@@ -466,7 +465,7 @@ Fitur-fitur rasio ini menggambarkan efisiensi, stabilitas, dan pengalaman kerja 
    → Menunjukkan durasi dan stabilitas hubungan dengan manajer langsung.
 ```
 
-##### 🔹 Binary Indicators
+**🔹 Binary Indicators**
 Dibuat sejumlah indikator biner untuk merepresentasikan kondisi risiko tinggi terhadap attrition:
 ```text
 1. IsYoung = 1 jika Age < 30  
@@ -483,7 +482,7 @@ Dibuat sejumlah indikator biner untuk merepresentasikan kondisi risiko tinggi te
    → Mengindikasikan posisi jabatan rendah.
 ```
 
-#####🔹 Satisfaction & Career Dynamics  
+**🔹 Satisfaction & Career Dynamics** 
 Beberapa fitur gabungan dibuat untuk menangkap hubungan antar aspek produktivitas, kepuasan, dan kinerja:
 ```text
 1. AvgSatisfaction = mean(EnvironmentSatisfaction, JobSatisfaction, 
@@ -495,7 +494,7 @@ Beberapa fitur gabungan dibuat untuk menangkap hubungan antar aspek produktivita
    → Mewakili tingkat kestabilan posisi dan hubungan kerja.
 ```
 
-##### 🔹 Extended Analytical Features
+**🔹 Extended Analytical Features** 
 Untuk memperkaya informasi prediktif, ditambahkan kombinasi fitur yang mencerminkan **produktivitas, pendapatan, dan kinerja karyawan**.    
 Fitur-fitur ini membantu model memahami hubungan antara faktor ekonomi dan performa kerja yang dapat berkontribusi terhadap *attrition*.  
 ```text
@@ -511,5 +510,135 @@ Fitur-fitur ini membantu model memahami hubungan antara faktor ekonomi dan perfo
    → Mewakili tingkat senioritas karyawan secara umum.  
 6. Promotion_Rate = YearsAtCompany / (YearsSinceLastPromotion + 1)
    → Menggambarkan frekuensi promosi relatif terhadap masa kerja.  
+```
+
+## Model Training, Comparison, Selection and Tuning
+### 1. Model Selection
+Pada tahap pengembangan model, dilakukan proses pemilihan beberapa algoritma klasifikasi untuk menentukan model terbaik dalam memprediksi *Employee Attrition*. Proses ini dilakukan dengan membandingkan performa dari berbagai model baik linear maupun berbasis pohon keputusan (*tree-based models*) guna menemukan keseimbangan antara akurasi, stabilitas, dan kemampuan generalisasi.
+
+Tiga model utama yang dievaluasi secara mendalam adalah **Logistic Regression**, **Random Forest**, dan **LightGBM**, dengan masing-masing mewakili pendekatan berbeda dalam *machine learning**. Pemilihan ketiganya didasarkan pada kemampuan mereka menangani data tabular, interpretabilitas hasil, serta efisiensi pelatihan.
+
+**Logistic Regression (L1 & L2 Regularized)**
+```python
+from sklearn.linear_model import LogisticRegression
+
+log_model_l2 = LogisticRegression(penalty='l2', solver='lbfgs', max_iter=1000, random_state=42)
+log_model_l2.fit(X_train_scaled, y_train
+```
+Model **Logistic Regression** digunakan sebagai baseline linear untuk mengukur performa dasar prediksi.  
+Model ini bekerja dengan mengestimasi probabilitas suatu observasi masuk ke kelas tertentu melalui fungsi logit (sigmoid). Untuk menghindari *overfitting*, diterapkan regularisasi **L1 (Lasso)** dan **L2 (Ridge)** yang berfungsi menekan kompleksitas model dengan mengurangi bobot koefisien yang kurang signifikan.  
+
+**Random Forest**
+```python
+from sklearn.ensemble import RandomForestClassifier
+
+rf_model = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=10,
+    random_state=42,
+    class_weight='balanced'
+)
+rf_model.fit(X_train_scaled, y_train)
+```
+**Random Forest** merupakan algoritma *ensemble learning* berbasis *bagging* yang menggabungkan banyak pohon keputusan independen.  
+Setiap pohon dilatih menggunakan subset acak dari data dan fitur, sehingga variasi antar pohon tinggi dan hasil agregasi menjadi lebih stabil.  
+Pendekatan ini efektif untuk mengurangi *variance* dan risiko *overfitting* pada model pohon tunggal seperti Decision Tree.
+
+**LightGBM**
+```python
+from lightgbm import LGBMClassifier
+
+lgbm_model = LGBMClassifier(
+    boosting_type='gbdt',
+    n_estimators=500,
+    learning_rate=0.05,
+    max_depth=-1,
+    num_leaves=31,
+    random_state=42
+)
+lgbm_model.fit(X_train_scaled, y_train)
+```
+**LightGBM (Light Gradient Boosting Machine)** adalah algoritma *boosting* berbasis pohon yang dikembangkan untuk efisiensi tinggi dan performa superior pada dataset besar.  
+Berbeda dengan pendekatan tradisional, LightGBM membangun pohon secara *leaf-wise* — memilih daun dengan *gain* terbesar pada setiap langkah — yang menghasilkan model lebih presisi dengan waktu pelatihan cepat.
+
+Ketiga model ini digunakan dengan pengaturan parameter awal sebagai percobaan dasar untuk melihat performa awal dan kestabilan hasil.  
+Evaluasi dilakukan menggunakan teknik **stratified k-fold cross validation** untuk memastikan bahwa setiap lipatan (*fold*) data memiliki proporsi kelas target yang seimbang.  
+Hal ini sangat penting pada kasus *Employee Attrition* karena data cenderung tidak seimbang antara karyawan yang bertahan dan yang keluar.
+- Pada langkah ini, kinerja setiap model dibandingkan menggunakan *stratified k-fold cross validation*, di
+  mana setiap model dilatih dan dievaluasi pada lipatan berbeda untuk memperoleh skor ROC-AUC rata-rata.
+  Pendekatan ini menjaga keseimbangan kelas dan membantu menilai performa generalisasi model.  
+- *k-fold cross validation* sendiri merupakan teknik umum dalam *machine learning* untuk menilai kemampuan model secara objektif.Dataset dibagi menjadi **K subset**, di mana **K-1** subset digunakan untuk pelatihan dan 1 subset sisanya untuk pengujian. Proses ini diulang sebanyak *K kali* agar setiap bagian data digunakan baik untuk pelatihan maupun pengujian. Teknik ini membantu memperkirakan kemampuan generalisasi model dengan mengurangi risiko *overfitting* dan memberikan metrik performa yang lebih stabil dan dapat dipercaya.
+- Tujuan dari tahap ini adalah menentukan model terbaik yang akan digunakan pada proses **feature selection**, **hyperparameter tuning**, dan **evaluasi akhir**.  
+Model dengan performa validasi rata-rata **ROC-AUC tertinggi** dan *gap* pelatihan–validasi yang kecil dianggap sebagai model yang paling ideal.
+  
+**Tabel Perbandingan Performa Model**
+
+| **Model**                 | **ROC-AUC (Val)** | **Gap**     | **Catatan**                    |
+|----------------------------|:----------------:|:-----------:|--------------------------------|
+| Logistic L2 (Tuned)        | 0.8321           | +0.0175     | Stabil dan interpretatif       |
+| Logistic L1 (Tuned)        | 0.7275           | -0.0354     | Kurang stabil                  |
+| Random Forest (Optimized)  | 0.7919           | +0.1269     | Overfit ringan                 |
+| Gradient Boosting          | 0.8008           | +0.1898     | Overfit moderat                |
+| LightGBM (Tuned)           | 0.7872           | +0.2086     | Performa tinggi, efisien       |
+| CatBoost                   | 0.8121           | +0.1550     | Konsisten                      |
+| AdaBoost                   | 0.7834           | +0.0729     | Baik untuk baseline            |
+| Bagging (Logistic Base)    | 0.8345           | +0.0020     | Sangat stabil                  |
+
+Berdasarkan hasil validasi dan efisiensi komputasi, model LightGBM dipilih untuk proses *feature selection, hyperparameter tuning*, dan evaluasi akhir.
+Model ini menunjukkan performa ROC-AUC yang tinggi dan stabil, serta memiliki kemampuan generalisasi yang baik meskipun menunjukkan sedikit indikasi *overfitting*.
+
+**LightGBM**juga mendukung interpretasi lebih lanjut melalui *feature importance* dan analisis nilai SHAP, sehingga memudahkan eksplorasi faktor-faktor utama yang memengaruhi tingkat Employee Attrition.
+
+### 2. Feature Selection
+
+- Langkah seleksi fitur sangat penting untuk meningkatkan kemampuan generalisasi model sekaligus menyederhanakan kompleksitasnya, sehingga menambah efisiensi komputasi.  
+  Mengingat dataset memiliki **51 fitur hasil rekayasa data**, penyederhanaan model tanpa kehilangan performa menjadi keuntungan yang signifikan. Dalam proyek ini digunakan pendekatan **Random Forest Feature Importance** untuk menentukan fitur paling relevan terhadap prediksi *employee attrition*.
+- Metode **Random Forest Feature Importance** bekerja dengan melatih model pada seluruh fitur yang ada dan mengukur kontribusi relatif tiap fitur terhadap akurasi prediksi.  
+  Semakin tinggi nilai *importance* suatu fitur, semakin besar pengaruhnya terhadap hasil prediksi model.  
+  Proses ini digunakan untuk mengidentifikasi fitur dengan dampak terbesar terhadap variabel target, mengurangi fitur yang tidak relevan, serta meningkatkan interpretabilitas model.
+- Berdasarkan hasil evaluasi, model menunjukkan bahwa beberapa fitur seperti **AttritionRiskScore**, **Age_Experience**, **MonthlyIncome**, dan **JobHoppingRate** memiliki pengaruh paling signifikan terhadap prediksi *attrition*.  
+  Fitur-fitur ini berkaitan erat dengan risiko karyawan meninggalkan perusahaan, pengalaman kerja, serta kompensasi yang diterima.
+- Visualisasi hasil seleksi ditampilkan dalam grafik *Feature Importance*, yang menunjukkan peringkat fitur berdasarkan kontribusinya terhadap model.  
+  Grafik ini membantu memahami faktor-faktor utama yang mendorong perilaku *employee attrition* dan menjadi dasar untuk interpretasi model selanjutnya.
+  ![Feature Importance](https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/feature_importance.png?raw=true)  
+  
+### 3. Hyperparameter Tunning
+- Dilakukan *hyperparameter tuning* pada model **LightGBM** dan **XGBoost** menggunakan metode **RandomizedSearchCV**.  
+  Pendekatan ini memungkinkan pencarian parameter terbaik secara efisien dengan memilih kombinasi acak dari ruang parameter yang telah ditentukan, sehingga lebih cepat dibanding *Grid Search* tanpa mengorbankan kualitas hasil.  
+- Berbeda dengan *Grid Search* yang menguji seluruh kombinasi parameter secara menyeluruh dan memakan waktu lama, *Randomized Search* hanya mengevaluasi sebagian kecil kombinasi secara acak.  
+  Metode ini lebih efisien dalam kasus dataset berukuran besar seperti ini, terutama karena parameter seperti *learning rate*, *max depth*, dan *number of estimators* saling berinteraksi dan memengaruhi hasil model secara kompleks.  
+- Setiap kombinasi parameter diuji menggunakan teknik **Stratified K-Fold Cross Validation** dengan nilai `k=3`, untuk memastikan distribusi kelas target tetap seimbang pada setiap *fold* dan menghindari risiko *overfitting* akibat tuning yang berlebihan terhadap data train.
+- Selama proses tuning, model tetap mempertimbangkan keseimbangan kelas dengan menggunakan **class_weight='balanced'**.  
+  Hyperparameter ini memungkinkan model memberikan bobot lebih besar pada kelas minoritas (*Attrition = 1*), sehingga model dapat mempelajari pola yang relevan tanpa bias terhadap kelas mayoritas.  
+- Proses *hyperparameter tuning* difokuskan pada penyesuaian parameter penting seperti:
+  - `num_leaves`, `max_depth` → mengontrol kompleksitas model.  
+  - `learning_rate` → mengatur kecepatan pembelajaran model.  
+  - `n_estimators` → menentukan jumlah pohon yang digunakan.  
+  - `subsample` dan `colsample_bytree` → menentukan proporsi data dan fitur yang digunakan pada setiap iterasi untuk mencegah *overfitting*.  
+  - `reg_alpha` dan `reg_lambda` → pengaturan regularisasi untuk menjaga keseimbangan bias-varians.
+- Hasil tuning menunjukkan bahwa model **LightGBM** memiliki performa terbaik dengan skor validasi rata-rata **ROC-AUC sebesar 0.8220**, sedikit lebih unggul dibandingkan **XGBoost (ROC-AUC = 0.8217)**.  
+  LightGBM dipilih sebagai model akhir karena memiliki efisiensi pelatihan yang lebih tinggi dan stabilitas hasil yang baik pada validasi silang.
+- Tahap *hyperparameter tuning* merupakan langkah penyempurnaan akhir sebelum evaluasi model.  
+  Meskipun tuning berperan penting dalam peningkatan performa, kontribusi paling signifikan terhadap keberhasilan model tetap berasal dari kualitas proses *feature engineering* dan *data preprocessing* sebelumnya.
+
+```python
+final_best_params = {
+    'objective': 'binary',
+    'metric': 'roc_auc',
+    'n_estimators': 652,
+    'learning_rate': 0.0285,
+    'num_leaves': 36,
+    'max_depth': 4,
+    'min_child_samples': 46,
+    'subsample': 0.8199,
+    'colsample_bytree': 0.9976,
+    'reg_alpha': 0.0692,
+    'reg_lambda': 4.1486,
+    'class_weight': 'balanced',
+    'bagging_freq': 1,
+    'verbosity': -1,
+    'random_state': 42,
+    'n_jobs': -1
+}
 ```
 
