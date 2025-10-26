@@ -431,21 +431,21 @@ Dengan demikian, model dapat dilatih dan dievaluasi secara konsisten terhadap fe
 
 ### 3. Feature Engineering, Data Cleaning and Preprocessing
 **Pre-Processing**
-- **Fitur Numerik**
-  Tidak dilakukan transformasi atau normalisasi.
-  Model berbasis pohon keputusan (seperti **XGBoost**, **LightGBM**, atau **Random Forest**) tidak sensitif terhadap skala data, sehingga **feature scaling tidak diperlukan**.
-- **Fitur Kategorikal**
-  Fitur: *Education*, *EnvironmentSatisfaction*, *JobInvolvement*, *JobSatisfaction*, *PerformanceRating*, *RelationshipSatisfaction*, *WorkLifeBalance*.
-  Beberapa variabel yang disebutkan di atas menggunakan **Ordinal Encoding** untuk mempertahankan urutan nilai yang mencerminkan tingkat atau level sebenarnya dari setiap kategori.
+- **Fitur Numerik**  
+  Tidak dilakukan transformasi atau normalisasi.  
+  Model berbasis pohon keputusan (seperti **XGBoost**, **LightGBM**, atau **Random Forest**) tidak sensitif terhadap skala data, sehingga **feature scaling tidak diperlukan**.  
+- **Fitur Kategorikal**  
+  Fitur: *Education*, *EnvironmentSatisfaction*, *JobInvolvement*, *JobSatisfaction*, *PerformanceRating*, *RelationshipSatisfaction*, *WorkLifeBalance*.  
+  Beberapa variabel yang disebutkan di atas menggunakan **Ordinal Encoding** untuk mempertahankan urutan nilai yang mencerminkan tingkat atau level sebenarnya dari setiap kategori.  
 - **Nominal Features**
   Fitur: *BusinessTravel*, *Department*, *EducationField*, *JobRole*, *MaritalStatus*  
 Diterapkan **Target Encoding**, karena:
-- *One-Hot Encoding* dapat menyebabkan *sparse matrix* dan meningkatkan dimensi data secara signifikan.  
-- *Target Encoding* lebih efisien untuk model *tree-based*, serta mampu menangkap proporsi rata-rata target (*Attrition*) di setiap kategori.
-- **Fitur Biner (*Gender*, *OverTime*)**
-  Diterapkan **One-Hot Encoding**, karena hanya memiliki dua kategori.
+   - *One-Hot Encoding* dapat menyebabkan *sparse matrix* dan meningkatkan dimensi data secara signifikan.
+   - *Target Encoding* lebih efisien untuk model *tree-based*, serta mampu menangkap proporsi rata-rata target (*Attrition*) di setiap kategori.
+- **Fitur Biner (*Gender*, *OverTime*)**  
+  Diterapkan **One-Hot Encoding**, karena hanya memiliki dua kategori.  
   Transformasi ini akan menghasilkan variabel biner (0/1) tanpa meningkatkan dimensi data secara signifikan.
-- **Fitur Konstan**
-  Fitur: *EmployeeCount*, *Over18*, dan *StandardHours*.
-  Fitur-fitur ini memiliki **nilai konstan pada semua entri**, sehingga dihapus karena **tidak memberikan informasi tambahan terhadap model**.
+- **Fitur Konstan**  
+  Fitur: *EmployeeCount*, *Over18*, dan *StandardHours*.  
+  Fitur-fitur ini memiliki **nilai konstan pada semua entri**, sehingga dihapus karena **tidak memberikan informasi tambahan terhadap model**.  
 
