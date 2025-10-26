@@ -456,29 +456,30 @@ Fitur-fitur ini membantu meningkatkan interpretabilitas model dan memberikan kon
 ##### 🔹 Core Ratio Features
 Fitur-fitur rasio ini menggambarkan efisiensi, stabilitas, dan pengalaman kerja karyawan:
 ```text
-1. ExperienceRatio        = YearsAtCompany / (TotalWorkingYears + 1)
+1. ExperienceRatio = YearsAtCompany / (TotalWorkingYears + 1)
    → Mengukur proporsi pengalaman kerja yang dihabiskan di perusahaan saat ini.
-2. CurrentRoleRatio       = YearsInCurrentRole / (YearsAtCompany + 1)
+2. CurrentRoleRatio = YearsInCurrentRole / (YearsAtCompany + 1)
    → Menggambarkan stabilitas posisi jabatan selama masa kerja.
-3. JobHoppingRate         = NumCompaniesWorked / (TotalWorkingYears + 1)
+3. JobHoppingRate = NumCompaniesWorked / (TotalWorkingYears + 1)
    → Mengindikasikan kecenderungan berpindah-pindah perusahaan.
-4. ManagerStability       = YearsWithCurrManager / (YearsAtCompany + 1)
+4. ManagerStability = YearsWithCurrManager / (YearsAtCompany + 1)
    → Menunjukkan durasi dan stabilitas hubungan dengan manajer langsung.
+---
 
 ##### 🔹 Binary Indicators
 Dibuat sejumlah indikator biner untuk merepresentasikan kondisi risiko tinggi terhadap attrition:
 ```text
-1. IsYoung             = 1 jika Age < 30  
+1. IsYoung = 1 jika Age < 30  
    → Mengindikasikan kelompok usia muda dengan mobilitas tinggi.  
 2. TimeWithoutPromotion = 1 jika YearsSinceLastPromotion > 3   
    → Menandakan stagnasi karier dalam jangka waktu lama.  
-3. LongCommute         = 1 jika DistanceFromHome > 15  
+3. LongCommute = 1 jika DistanceFromHome > 15  
    → Mengindikasikan jarak rumah jauh dari kantor yang berpotensi menurunkan loyalitas.  
-4. PoorWorkLife        = 1 jika WorkLifeBalance ≤ 2  
+4. PoorWorkLife = 1 jika WorkLifeBalance ≤ 2  
    → Menunjukkan keseimbangan hidup dan pekerjaan yang buruk.  
-5. OverTime_Binary     = 1 jika OverTime = Yes  
+5. OverTime_Binary = 1 jika OverTime = Yes  
    → Mengindikasikan frekuensi lembur yang tinggi dan potensi burnout.  
-6. LowJobLevel         = 1 jika JobLevel ≤ 1  
+6. LowJobLevel = 1 jika JobLevel ≤ 1  
    → Mengindikasikan posisi jabatan rendah.  
 
 #####🔹 Satisfaction & Career Dynamics  
