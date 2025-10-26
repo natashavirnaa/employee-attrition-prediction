@@ -371,6 +371,81 @@ Berdasarkan hasil boxplot di atas, persebaran dari fitur numerik terhadap variab
 - **Memiliki masa kerja yang lebih panjang**, baik secara total maupun pada posisi saat ini.  
 - **Lebih sering mendapatkan kesempatan promosi** serta memiliki **tingkat kepuasan kerja yang lebih tinggi**.
 
+## Kesimpulan EDA
+Berdasarkan hasil eksplorasi data yang telah dilakukan, dapat disimpulkan bahwa:
+1. **Distribusi Attrition Tidak Seimbang**  
+   Sebagian besar karyawan (**84%**) tercatat **tidak keluar dari perusahaan**, sementara **16%** mengalami *attrition* (keluar). Ketidakseimbangan ini menunjukkan bahwa data bersifat *imbalanced*, sehingga perlu perhatian khusus dalam pemodelan, seperti penyesuaian bobot kelas atau pemilihan metrik evaluasi yang sensitif terhadap ketidakseimbangan.
+2. **Profil Umum Karyawan**  
+   Mayoritas karyawan berusia **30–40 tahun** dengan **masa kerja sekitar 7 tahun** dan total pengalaman kerja **11 tahun**. Pendapatan bulanan rata-rata berada pada kisaran **Rp6.544**, menunjukkan variasi pendapatan yang cukup besar antar individu.
+3. **Faktor-Faktor yang Berkaitan dengan Attrition**  
+   Karyawan yang keluar (*Attrition = 1*) cenderung memiliki:
+   - Usia yang lebih muda (25–35 tahun).  
+   - Pendapatan dan level jabatan yang lebih rendah.  
+   - Masa kerja yang lebih singkat, baik di perusahaan maupun dengan manajer saat ini.  
+   - Frekuensi promosi yang lebih sedikit.  
+   - Tingkat kepuasan kerja dan lingkungan yang lebih rendah.  
+   Sebaliknya, karyawan yang bertahan cenderung memiliki pendapatan dan jabatan yang lebih tinggi, serta tingkat kepuasan yang lebih baik.
+4. **Korelasi antar Variabel**  
+   Beberapa variabel seperti **MonthlyIncome**, **TotalWorkingYears**, dan **JobLevel** memiliki korelasi negatif terhadap *attrition*, menunjukkan bahwa peningkatan faktor-faktor tersebut dapat menurunkan kemungkinan karyawan keluar.  
+   Sementara itu, **OverTime** memiliki korelasi positif paling kuat, menandakan bahwa karyawan yang sering lembur lebih berisiko untuk meninggalkan perusahaan.
+5. **Gambaran Departemen dan Demografi**  
+   Sebagian besar karyawan bekerja di **Departemen Research & Development**, disusul oleh **Sales** dan **Human Resources**.  
+   Karyawan laki-laki sedikit lebih banyak dibandingkan perempuan, dan mayoritas berstatus menikah. Posisi dominan dipegang oleh **Sales Executive** dan **Research Scientist**. Sebagian besar karyawan jarang melakukan perjalanan dinas (*Travel_Rarely*).
 
+Secara keseluruhan, analisis EDA menunjukkan bahwa **attrition di perusahaan dipengaruhi oleh faktor usia, pendapatan, masa kerja, tingkat promosi, dan kepuasan kerja**.  
+Karyawan dengan **penghasilan rendah, masa kerja singkat, serta kepuasan kerja yang rendah** lebih berisiko untuk keluar.  
+Temuan ini dapat menjadi dasar penting dalam proses **pemodelan prediktif attrition**, sekaligus memberikan wawasan bagi manajemen dalam menyusun strategi **retensi karyawan yang lebih efektif dan berbasis data**.
 
+---
+
+## Data Preparation 
+### 1. Label Encoding dengan Mapping pada Fitur Target 
+Proses encoding dilakukan secara manual untuk fitur target attrition.  
+Mapping digunakan sebagai berikut:
+| Kategori Attrition | Keterangan                 | Label |
+|---------------------|----------------------------|:------:|
+| No                  | Tidak resign (bertahan)    | 0 |
+| Yes                 | Resign (keluar dari kerja) | 1 |
+
+### 2. Splitting Dataset
+Menetapkan `stratify = y` sehingga fungsi `train_test_split` memastikan bahwa proses pemisahan mempertahankan persentase yang sama dari setiap kelas target di set *train* dan *validation*.  
+Dataset yang digunakan dalam analisis ini terdiri dari data pelatihan (*train*) dan data validasi (*validation*) dengan rincian sebagai berikut:
+- **Ukuran data fitur (train):** 940 observasi dengan 51 fitur.  
+- **Ukuran data target (train):** 940 observasi.  
+- **Ukuran data fitur (validation):** 236 observasi dengan 51 fitur.  
+- **Ukuran data target (validation):** 236 observasi.  
+
+---
+**Proporsi Kelas pada Variabel Target**
+Distribusi proporsi kelas pada variabel target `Attrition` untuk masing-masing dataset adalah sebagai berikut:
+**Data Pelatihan (Train):**
+- Kelas 0 (*Tidak Attrition / Tetap Bekerja*): **83,80%**  
+- Kelas 1 (*Attrition / Keluar Perusahaan*): **16,20%**  
+**Data Validasi (Validation):**
+- Kelas 0 (*Tidak Attrition / Tetap Bekerja*): **83,90%**  
+- Kelas 1 (*Attrition / Keluar Perusahaan*): **16,10%**
+
+---
+Distribusi kelas yang relatif konsisten antara data pelatihan dan validasi menunjukkan bahwa proses pembagian data dengan parameter `stratify = y` telah berhasil **mempertahankan keseimbangan proporsi kelas target**.  
+Dengan demikian, model dapat dilatih dan dievaluasi secara konsisten terhadap fenomena *attrition* tanpa bias distribusi data.
+
+### 3. Feature Engineering, Data Cleaning and Preprocessing
+**Pre-Processing**
+- **Fitur Numerik**
+  Tidak dilakukan transformasi atau normalisasi.
+  Model berbasis pohon keputusan (seperti **XGBoost**, **LightGBM**, atau **Random Forest**) tidak sensitif terhadap skala data, sehingga **feature scaling tidak diperlukan**.
+- **Fitur Kategorikal**
+  Fitur: *Education*, *EnvironmentSatisfaction*, *JobInvolvement*, *JobSatisfaction*, *PerformanceRating*, *RelationshipSatisfaction*, *WorkLifeBalance*.
+  Beberapa variabel yang disebutkan di atas menggunakan **Ordinal Encoding** untuk mempertahankan urutan nilai yang mencerminkan tingkat atau level sebenarnya dari setiap kategori.
+- **Nominal Features**
+  Fitur: *BusinessTravel*, *Department*, *EducationField*, *JobRole*, *MaritalStatus*  
+Diterapkan **Target Encoding**, karena:
+- *One-Hot Encoding* dapat menyebabkan *sparse matrix* dan meningkatkan dimensi data secara signifikan.  
+- *Target Encoding* lebih efisien untuk model *tree-based*, serta mampu menangkap proporsi rata-rata target (*Attrition*) di setiap kategori.
+- **Fitur Biner (*Gender*, *OverTime*)**
+  Diterapkan **One-Hot Encoding**, karena hanya memiliki dua kategori.
+  Transformasi ini akan menghasilkan variabel biner (0/1) tanpa meningkatkan dimensi data secara signifikan.
+- **Fitur Konstan**
+  Fitur: *EmployeeCount*, *Over18*, dan *StandardHours*.
+  Fitur-fitur ini memiliki **nilai konstan pada semua entri**, sehingga dihapus karena **tidak memberikan informasi tambahan terhadap model**.
 
