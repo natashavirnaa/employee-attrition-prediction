@@ -464,7 +464,7 @@ Fitur-fitur rasio ini menggambarkan efisiensi, stabilitas, dan pengalaman kerja 
    → Mengindikasikan kecenderungan berpindah-pindah perusahaan.
 4. ManagerStability = YearsWithCurrManager / (YearsAtCompany + 1)
    → Menunjukkan durasi dan stabilitas hubungan dengan manajer langsung.
-```text
+```
 
 ##### 🔹 Binary Indicators
 Dibuat sejumlah indikator biner untuk merepresentasikan kondisi risiko tinggi terhadap attrition:
@@ -480,7 +480,8 @@ Dibuat sejumlah indikator biner untuk merepresentasikan kondisi risiko tinggi te
 5. OverTime_Binary = 1 jika OverTime = Yes  
    → Mengindikasikan frekuensi lembur yang tinggi dan potensi burnout.  
 6. LowJobLevel = 1 jika JobLevel ≤ 1  
-   → Mengindikasikan posisi jabatan rendah.  
+   → Mengindikasikan posisi jabatan rendah.
+```
 
 #####🔹 Satisfaction & Career Dynamics  
 Beberapa fitur gabungan dibuat untuk menangkap hubungan antar aspek produktivitas, kepuasan, dan kinerja:
@@ -492,6 +493,7 @@ Beberapa fitur gabungan dibuat untuk menangkap hubungan antar aspek produktivita
    → Menunjukkan keseimbangan antara kinerja dan kepuasan kerja.  
 3. OverallStability = ManagerStability + CurrentRoleRatio
    → Mewakili tingkat kestabilan posisi dan hubungan kerja.
+```
 
 ##### 🔹 Extended Analytical Features
 Untuk memperkaya informasi prediktif, ditambahkan kombinasi fitur yang mencerminkan **produktivitas, pendapatan, dan kinerja karyawan**.    
@@ -509,5 +511,5 @@ Fitur-fitur ini membantu model memahami hubungan antara faktor ekonomi dan perfo
    → Mewakili tingkat senioritas karyawan secara umum.  
 6. Promotion_Rate = YearsAtCompany / (YearsSinceLastPromotion + 1)
    → Menggambarkan frekuensi promosi relatif terhadap masa kerja.  
-
+```
 
