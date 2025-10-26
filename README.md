@@ -455,7 +455,7 @@ Fitur-fitur ini membantu meningkatkan interpretabilitas model dan memberikan kon
 
 ##### 🔹 Core Ratio Features
 Fitur-fitur rasio ini menggambarkan efisiensi, stabilitas, dan pengalaman kerja karyawan:
-```text```
+```text
 1. ExperienceRatio = YearsAtCompany / (TotalWorkingYears + 1)
    → Mengukur proporsi pengalaman kerja yang dihabiskan di perusahaan saat ini.
 2. CurrentRoleRatio = YearsInCurrentRole / (YearsAtCompany + 1)
@@ -464,7 +464,7 @@ Fitur-fitur rasio ini menggambarkan efisiensi, stabilitas, dan pengalaman kerja 
    → Mengindikasikan kecenderungan berpindah-pindah perusahaan.
 4. ManagerStability = YearsWithCurrManager / (YearsAtCompany + 1)
    → Menunjukkan durasi dan stabilitas hubungan dengan manajer langsung.
----
+```text
 
 ##### 🔹 Binary Indicators
 Dibuat sejumlah indikator biner untuk merepresentasikan kondisi risiko tinggi terhadap attrition:
