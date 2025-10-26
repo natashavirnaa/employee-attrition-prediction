@@ -760,6 +760,25 @@ Model terbaik yang terpilih dalam proses pemodelan **Employee Attrition Predicti
 Hal ini menunjukkan bahwa model **tidak mengalami *overfitting*** dan memiliki **stabilitas prediksi yang baik** dalam membedakan antara karyawan yang **berpotensi keluar (attrition)** dan **yang bertahan**.
 Hasil ini juga akan lebih baik dibanding model ensemble yang hanya memberikan AUC 0,8325. Model ini menggunakan class_weight, bukan SMOTE, sehingga model tetap belajar pola asli tanpa oversampling sintesis.
 
+## Financial Result
+Untuk menunjukkan nilai tambah dari analisis ini, disajikan performa model dalam bentuk estimasi dampak finansial terhadap perusahaan. Analisis ini berdasarkan confusion matrix dan asumsi biaya karyawan resign.
+**Asumsi Dasar : **
+Biaya kehilangan karyawan yang resign diasumsikan sebesar 1jt per orang dan retensi karyawan yang diprediksi akan resign melalui intervensi perusahaan diasumsikan mengeluarkan biaya sebesar 2jt per orangnya.
+Komponen Biaya dan Manfaat yang diberikan : 
+**Biaya Retensi False Positive (FP)**
+→ Merupakan yang salah prediksi yang sebenernya karyawan tidak resign tapi akan diprediksi resign sebanyak 2 karyawan sehingga perusahaan sebeenrnya tidak perlu mengeluarkan biaya retensi yang tidak diperlukan. Jika terdapat 2 karyawan yaang berada pada False Positive ini, maka total biaya retensi yang tidak diperlukan ini sbeensar 4jt (2x2jt).
+**Biaya Retensi False Negative (FN)**
+→ Merupakan prediksi karyawan yang benar benar resign namun gagal terdeteksi.  Ada 26 karyawan yang berada di posisi ini yang mana perusahaan kehilangan seluruh biaya terkait dengan panggantian dan produktivitas dri mereka.Jika terdapat 26 karyawan yaang berada pada False Negative ini, maka total biaya retensi yang tidak diperlukan ini sebesar 26 jt (26 x 1jt).
+**Biaya Retensi True Positive (TP)**
+→ Merupakan prediksi karyawan yang akan resign dan berhasil dipertahankan.  Ada 12 karyawan yang berada di posisi ini yang mana perusahaan tetap mempertahankan produktivitas dan pengalaman dari karyawan.Jika terdapat 12 karyawan yaang berada pada False Negative ini, maka total biaya retensi yang tidak diperlukan ini sebesar 12 x 2 jt= 24 jtdan akan dikurangin dengan 12 x 1 jt= 12jt. Sehingga 24jt - 24 jt = 36 jt
+
+Dari hasil perhitungan tersebut dapat diartikan bahwa Total dampak finansial : 
+Total = - FN - FP + TP = -26 - 4 + 36 = -6 jt
+
+Hasil perhitungan menunjukkanb bahwa hasilnya negatif, yaitu -6 jt yang artinya perusahaan masih mengalami kerugian bersih, tetapi model tetap membantu untuk meminimalkan kehilangan karyawan melalui TP
+
+
+
 ## Conclution
 ### Ringkasan Proyek
 Dalam proyek ini, telah dikembangkan sebuah model klasifikasi berbasis Bagging (Logistic Regression Base) untuk memprediksi kemungkinan karyawan mengalami attrition (keluar dari perusahaan).
