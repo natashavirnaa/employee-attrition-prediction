@@ -54,4 +54,5 @@
     - [Langkah Selanjutnya](#langkah-selanjutnya)
 
 ## Domain Proyek : Manajemen Sumber Daya
-![Employee Attrition](images/employee-attrition.png)
+![Employee Attrition](image/employee-attrition.png)
+
