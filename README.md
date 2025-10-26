@@ -62,13 +62,13 @@ Dataset yang digunakan dalam proyek ini mencakup berbagai aspek profil karyawan,
 ---
 
 **Referensi**
-<div style="font-size: 13px; line-height: 1.6; margin-left: 10px;">
-[1] Dessler, G. (2020). <i>Human Resource Management</i> (16th ed.). Pearson Education.<br>
-[2] Cascio, W. F. (2015). <i>Managing Human Resources: Productivity, Quality of Work Life, Profits</i> (10th ed.). McGraw-Hill Education.<br>
-[3] Nguyen, T., & Duong, M. (2021). “Predicting Employee Turnover Using Machine Learning Techniques.” <i>Journal of Human Resource Analytics,</i> 5(3), 45–57.<br>
-[4] IBM HR Analytics Employee Attrition & Performance Dataset (2019). <i>Kaggle.</i><br>
-<a href="https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset">https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset</a>
-</div>
+<small>
+[1] Dessler, G. (2020). *Human Resource Management* (16th ed.). Pearson Education.  
+[2] Cascio, W. F. (2015). *Managing Human Resources: Productivity, Quality of Work Life, Profits* (10th ed.). McGraw-Hill Education.  
+[3] Nguyen, T., & Duong, M. (2021). “Predicting Employee Turnover Using Machine Learning Techniques.” *Journal of Human Resource Analytics,* 5(3), 45–57.  
+[4] IBM HR Analytics Employee Attrition & Performance Dataset (2019). *Kaggle.*  
+[https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset](https://www.kaggle.com/datasets/pavansubhashh/ibm-hr-analytics-attrition-dataset)
+</small>
 
 ---
 
