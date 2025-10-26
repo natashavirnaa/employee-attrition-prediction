@@ -745,6 +745,7 @@ Secara keseluruhan, *Bagging (Logistic Base)* memberikan keseimbangan optimal an
 ## Save Best Model
 ```python
 filename = '../model/Bagging_Logistic_Base__v1.pkl'
+```
 ---
 ## Model Interpretation
 Model terbaik yang terpilih pada proses pemodelan adalah :
