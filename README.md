@@ -748,6 +748,7 @@ filename = '../model/Bagging_Logistic_Base__v1.pkl'
 ```
 ---
 ## Model Interpretation
+### Best Model Selection and Evaluation
 Model terbaik yang terpilih pada proses pemodelan adalah :
 **Best Model:** `Bagging (Logistic Regression Base)`  
 - **Validation AUC:** 0.8345  
@@ -759,6 +760,36 @@ Model terbaik yang terpilih pada proses pemodelan adalah :
 Model terbaik yang terpilih dalam proses pemodelan **Employee Attrition Prediction** adalah **Bagging dengan Logistic Regression Base**. Model ini mencapai **Validation AUC sebesar 0.8345** dengan **AUC gap yang sangat kecil (+0.0020)** antara data training dan validation.  
 Hal ini menunjukkan bahwa model **tidak mengalami *overfitting*** dan memiliki **stabilitas prediksi yang baik** dalam membedakan antara karyawan yang **berpotensi keluar (attrition)** dan **yang bertahan**.
 Hasil ini juga akan lebih baik dibanding model ensemble yang hanya memberikan AUC 0,8325. Model ini menggunakan class_weight, bukan SMOTE, sehingga model tetap belajar pola asli tanpa oversampling sintesis.
+### Interpretation of Prediction Results
+- Karakteristik Performa model : 
+Akurasi Generalisasi tinggi : Validation AUC paling tinggi diantara model lain, yaitu (0,8345) dibandingkan dengan model yang lain.
+Gap antara CV dan Validation AUC hanya sekitar 0,01 yang menunjukkan bahwa model stabil dan tidak overfit
+Bagging dapat mengurangi variance sehingga prediksi churn lebih konsisten
+- Pengaruh Fitur Utama (Based on Logistic Base Behavior)
+Karena model terbaik adalah Bagging dengan Basic Regression, maka arah interpretasi tetap mengikuti logika dari regresi logistik. 
+Fitur bernilai positif → dapat meningkatkan peluang karyawan resign
+Fitur bernilai negatif →  dapat menurunkan peluang karyawan untuk resign
+Pada data submission terlihat bahwa memiliki data sebagai berikut : 
+Mean : 0.2155, Std : 0.1360
+Min : 0.0362, Max : 0.7110
+
+| No | ID     | Probabilitas risiko keluar|
+|----|--------|-------------------:|
+| 1  | CM617  | 0.3664             |
+| 2  | PJ010  | 0.1021             |
+| 3  | GJ831  | 0.1582             |
+| 4  | JD352  | 0.0593             |
+| 5  | WZ263  | 0.4655             |
+| 6  | OD346  | 0.2737             |
+| 7  | GF698  | 0.1254             |
+| 8  | JK198  | 0.1092             |
+| 9  | SP276  | 0.0682             |
+|10  | OP259  | 0.5508             |
+|11  | CR707  | 0.2169             |
+
+CV : 0.8238, Val : 0.8345, Ensemble : 0.8325
+Berdasarkan hasil prediksi model, rata rata probabilitas risiko resign nya karyawan berada pada level rendah yaitu 0.2155, dengan variasi yang cukup besar (std 0.1360) dan rentang nilai dari 0.0362 hingga 0.7110. Data menunjukkan bahwa beberapa karyawan memiliki risiko cukup tinggi untuk keluar(resign) seperti OP259 sebesar 0.5508 dan WZ263 sebesar 0.4655. Pada model yang stabil dan akurat tercermin dari nilzi CV sebesar 0.8238, validation sebesar 0.8345 dan ensemble 0.8325 yang artinya bahwa model dapat dipakai sebagai dasar untuk ambil kesimpulan.
+
 
 ## Financial Result
 Untuk menunjukkan nilai tambah dari analisis ini, disajikan performa model dalam bentuk estimasi dampak finansial terhadap perusahaan. Analisis ini berdasarkan confusion matrix dan asumsi biaya karyawan resign.
