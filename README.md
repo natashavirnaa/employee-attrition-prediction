@@ -430,7 +430,7 @@ Distribusi kelas yang relatif konsisten antara data pelatihan dan validasi menun
 Dengan demikian, model dapat dilatih dan dievaluasi secara konsisten terhadap fenomena *attrition* tanpa bias distribusi data.
 
 ### 3. Feature Engineering, Data Cleaning and Preprocessing
-**Pre-Processing**
+#### **Pre-Processing**
 - **Fitur Numerik**  
   Tidak dilakukan transformasi atau normalisasi.  
   Model berbasis pohon keputusan (seperti **XGBoost**, **LightGBM**, atau **Random Forest**) tidak sensitif terhadap skala data, sehingga **feature scaling tidak diperlukan**.  
@@ -447,5 +447,66 @@ Diterapkan **Target Encoding**, karena:
   Transformasi ini akan menghasilkan variabel biner (0/1) tanpa meningkatkan dimensi data secara signifikan.
 - **Fitur Konstan**  
   Fitur: *EmployeeCount*, *Over18*, dan *StandardHours*.  
-  Fitur-fitur ini memiliki **nilai konstan pada semua entri**, sehingga dihapus karena **tidak memberikan informasi tambahan terhadap model**.  
+  Fitur-fitur ini memiliki **nilai konstan pada semua entri**, sehingga dihapus karena **tidak memberikan informasi tambahan terhadap model**.
+
+#### Feature Engineering
+Untuk memperkuat kemampuan model dalam menangkap hubungan non-linear serta pola tersembunyi dalam data karyawan, dilakukan pembuatan sejumlah **fitur turunan**.  
+Fitur-fitur ini membantu meningkatkan interpretabilitas model dan memberikan konteks bisnis yang lebih kaya terhadap faktor penyebab *attrition*. 
+
+##### 🔹 Core Ratio Features
+Fitur-fitur rasio ini menggambarkan efisiensi, stabilitas, dan pengalaman kerja karyawan:
+```text
+1. ExperienceRatio        = YearsAtCompany / (TotalWorkingYears + 1)
+   → Mengukur proporsi pengalaman kerja yang dihabiskan di perusahaan saat ini.
+2. CurrentRoleRatio       = YearsInCurrentRole / (YearsAtCompany + 1)
+   → Menggambarkan stabilitas posisi jabatan selama masa kerja.
+3. JobHoppingRate         = NumCompaniesWorked / (TotalWorkingYears + 1)
+   → Mengindikasikan kecenderungan berpindah-pindah perusahaan.
+4. ManagerStability       = YearsWithCurrManager / (YearsAtCompany + 1)
+   → Menunjukkan durasi dan stabilitas hubungan dengan manajer langsung.
+
+##### 🔹 Binary Indicators
+Dibuat sejumlah indikator biner untuk merepresentasikan kondisi risiko tinggi terhadap attrition:
+```text
+1. IsYoung             = 1 jika Age < 30  
+   → Mengindikasikan kelompok usia muda dengan mobilitas tinggi.  
+2. TimeWithoutPromotion = 1 jika YearsSinceLastPromotion > 3   
+   → Menandakan stagnasi karier dalam jangka waktu lama.  
+3. LongCommute         = 1 jika DistanceFromHome > 15  
+   → Mengindikasikan jarak rumah jauh dari kantor yang berpotensi menurunkan loyalitas.  
+4. PoorWorkLife        = 1 jika WorkLifeBalance ≤ 2  
+   → Menunjukkan keseimbangan hidup dan pekerjaan yang buruk.  
+5. OverTime_Binary     = 1 jika OverTime = Yes  
+   → Mengindikasikan frekuensi lembur yang tinggi dan potensi burnout.  
+6. LowJobLevel         = 1 jika JobLevel ≤ 1  
+   → Mengindikasikan posisi jabatan rendah.  
+
+#####🔹 Satisfaction & Career Dynamics  
+Beberapa fitur gabungan dibuat untuk menangkap hubungan antar aspek produktivitas, kepuasan, dan kinerja:
+```text
+1. AvgSatisfaction = mean(EnvironmentSatisfaction, JobSatisfaction, 
+                          RelationshipSatisfaction, WorkLifeBalance)
+   → Menggambarkan tingkat kepuasan kerja secara keseluruhan.  
+2. TotalPerformance = PerformanceRating + AvgSatisfaction
+   → Menunjukkan keseimbangan antara kinerja dan kepuasan kerja.  
+3. OverallStability = ManagerStability + CurrentRoleRatio
+   → Mewakili tingkat kestabilan posisi dan hubungan kerja.
+
+##### 🔹 Extended Analytical Features
+Untuk memperkaya informasi prediktif, ditambahkan kombinasi fitur yang mencerminkan **produktivitas, pendapatan, dan kinerja karyawan**.    
+Fitur-fitur ini membantu model memahami hubungan antara faktor ekonomi dan performa kerja yang dapat berkontribusi terhadap *attrition*.  
+```text
+1. IncomePerYear = MonthlyIncome / (TotalWorkingYears + 1)
+   → Menggambarkan rata-rata pendapatan per tahun pengalaman kerja.  
+2. Income_JobLevel = MonthlyIncome × JobLevel
+   → Mengindikasikan hubungan antara pendapatan dan posisi jabatan.  
+3. Age_Experience = Age × TotalWorkingYears
+   → Menggambarkan korelasi antara usia dan pengalaman kerja.  
+4. Satisfaction_Performance = AvgSatisfaction × PerformanceRating
+   → Mengukur keseimbangan antara kepuasan kerja dan kinerja aktual.  
+5. Seniority = JobLevel × TotalWorkingYears
+   → Mewakili tingkat senioritas karyawan secara umum.  
+6. Promotion_Rate = YearsAtCompany / (YearsSinceLastPromotion + 1)
+   → Menggambarkan frekuensi promosi relatif terhadap masa kerja.  
+
 
