@@ -313,7 +313,20 @@ Beberapa variabel lain seperti **TotalWorkingYears (52 *outlier*)** dan **YearsA
 | MonthlyRate | 0 |
 | WorkLifeBalance | 0 |
 
+### [Exploratory Data Analysis] - Univariate Analysis
+#### Grafik 1 : Distribusi Kategori Employee Attrition
+![Distribusi Kategori Employee Attrition] (https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/EDA%201%20-%20Distribusi%20Kategori%20Employee-Attrition.png)
 
+Distribusi variabel **Attrition** menunjukkan bahwa sebagian besar karyawan **tidak keluar dari perusahaan (sekitar 84%)**, sedangkan hanya sekitar **16% yang mengalami attrition (keluar)**.  
+Kondisi ini **menandakan adanya ketidakseimbangan kelas** yang cukup besar antara karyawan yang bertahan dan yang keluar, yang dapat **mempengaruhi performa model prediksi**.  
+
+Untuk mengatasi hal tersebut, dilakukan beberapa strategi berikut:
+1. **Stratified Train-Test Split**  
+   Pembagian data dilakukan secara *terstratifikasi* agar proporsi antara karyawan yang keluar dan tidak keluar tetap konsisten di data pelatihan dan pengujian.  
+2. **Penyesuaian Bobot Kelas (*Class Weight Adjustment*)**  
+   Model diberikan bobot lebih besar pada kelas minoritas (**Attrition = 1**) agar kesalahan prediksi terhadap karyawan yang keluar tidak diabaikan.  
+3. **Evaluasi dengan Metrik Sensitif terhadap Ketidakseimbangan**  
+   Penggunaan metrik seperti **Recall**, *F1-Score*, dan **ROC-AUC** difokuskan agar model tidak hanya akurat pada kelas mayoritas, tetapi juga mampu mengenali pola karyawan yang berpotensi keluar.
 
 
 
