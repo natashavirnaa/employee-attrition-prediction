@@ -641,4 +641,109 @@ final_best_params = {
     'n_jobs': -1
 }
 ```
+Hasil tuning menunjukkan bahwa LightGBM memberikan performa validasi terbaik (ROC-AUC 0.8220),
+sedangkan XGBoost menghasilkan nilai yang sangat mendekati (ROC-AUC 0.8217).
+Kedua model ini kemudian digunakan untuk dibandingkan lebih lanjut pada tahap Model Testing and Evaluation
 
+## Model Testing and Evaluation
+
+Tahap ini bertujuan untuk membandingkan performa berbagai model yang telah melalui proses pelatihan dan tuning,  
+serta menentukan model terbaik yang akan digunakan untuk prediksi akhir dan tahap deployment.  
+Evaluasi dilakukan secara bertahap melalui proses **training**, **comparison**, **calibration**, **ensemble**, dan **testing**.
+
+---
+
+### Model Training
+Beberapa model diuji dan dioptimalkan melalui proses pelatihan terpisah, baik untuk model linear maupun berbasis pohon keputusan.  
+Berikut adalah ringkasan performa pelatihan yang mencakup nilai *training AUC*, *validation AUC*, *cross-validation AUC*, dan *generalization gap*:
+| Model | Train | Val | CV | Gap | Keterangan |
+|:------|:------:|:------:|:------:|:------:|:-------------|
+| Logistic L2 (Tuned) | 0.8496 | 0.8321 | 0.8144 | 0.0175 | ✅ Good |
+| Logistic L1 (Tuned) | 0.6921 | 0.7275 | 0.6387 | -0.0354 | ✅ Good |
+| Random Forest (Optimized) | 0.9187 | 0.7919 | 0.7858 | 0.1269 | ⚠️ Overfit |
+| Extra Trees (Optimized) | 0.9472 | 0.8215 | 0.8005 | 0.1256 | ⚠️ Overfit |
+| Gradient Boosting (Optimized) | 0.9905 | 0.8008 | 0.8238 | 0.1898 | ⚠️ Overfit |
+| XGBoost (Optimized) | 0.8963 | 0.8091 | 0.8156 | 0.0871 | ⚠️ Warn |
+| Bagging (Logistic Base) | 0.8365 | 0.8345 | 0.8110 | 0.0020 | ✅ Excellent |
+
+Dari hasil di atas, model **Bagging (Logistic Base)** menunjukkan *generalization gap* paling kecil (+0.0020),  
+yang menandakan stabilitas tinggi dan kemampuan generalisasi terbaik terhadap data baru.
+
+### Model Comparison
+Untuk memastikan konsistensi performa, seluruh model dibandingkan kembali berdasarkan hasil validasi dan *cross-validation (CV)*.
+
+| Model | Train | Val | CV | Gap |
+|:------|:------:|:------:|:------:|:------:|
+| Gradient Boosting (Optimized) | 0.9905 | 0.8007 | 0.8237 | 0.1898 |
+| CatBoost (Optimized) | 0.9670 | 0.8121 | 0.8225 | 0.1549 |
+| LightGBM (Tuned) | 0.9958 | 0.7872 | 0.8169 | 0.2086 |
+| XGBoost (Optimized) | 0.8963 | 0.8091 | 0.8156 | 0.0871 |
+| Logistic L2 (Tuned) | 0.8496 | 0.8321 | 0.8144 | 0.0175 |
+| **Bagging (Logistic Base)** | **0.8365** | **0.8345** | **0.8110** | **0.0020** |
+
+🔹 **Hasil terbaik diperoleh oleh model Bagging (Logistic Base)** dengan *Validation AUC* sebesar **0.8345** dan *CV AUC* 0.8110.  
+Meskipun model berbasis pohon (seperti LightGBM atau CatBoost) memiliki performa kuat,  
+model tersebut menunjukkan *gap* yang lebih besar, menandakan potensi *overfitting*.
+
+### Model Calibration
+Tahap ini dilakukan untuk memastikan bahwa probabilitas yang dihasilkan model telah terkalibrasi dengan baik.  
+Tiga model dengan performa terbaik (Gradient Boosting, CatBoost, dan LightGBM) diuji kalibrasinya menggunakan metode *Platt Scaling*.
+
+| Model | Original AUC | Calibrated AUC | Gain |
+|:------|:-------------:|:----------------:|:------:|
+| Gradient Boosting | 0.8008 | 0.7987 | -0.0021 |
+| CatBoost | 0.8121 | 0.8043 | -0.0078 |
+| LightGBM | 0.7872 | 0.8067 | +0.0195 |
+
+📊 Hasil menunjukkan bahwa kalibrasi pada **LightGBM** meningkatkan kualitas prediksi probabilitas secara signifikan (+0.0195),  
+sementara model lainnya mengalami sedikit penurunan performa.
+
+### Model Ensemble
+Tahap ini bertujuan untuk meningkatkan performa keseluruhan model serta mengurangi *variance.*
+Untuk mencapai tujuan tersebut, dilakukan proses **ensemble otomatis** yang menggabungkan beberapa model terbaik, yaitu **Logistic L2 (Tuned), XGBoost (Optimized)**, dan **Bagging (Logistic Base)**
+
+- Model yang dipilih otomatis untuk ensemble:  
+  `['Logistic L2 (Tuned)', 'XGBoost (Optimized)', 'Bagging (Logistic Base)']`
+- Bobot terbaik (berdasarkan validasi):  
+  - Logistic L2 (Tuned): 0.2  
+  - XGBoost (Optimized): 0.2  
+  - Bagging (Logistic Base): 0.6  
+- **Best blended AUC (Validation): 0.8325**
+
+🧠 Proses ensemble ini bertujuan untuk meningkatkan stabilitas hasil prediksi tanpa mengorbankan interpretabilitas,  namun tidak melampaui performa individu terbaik (Bagging).
+
+### Test Predictions
+Model hasil ensemble dan model individual terbaik diuji pada data *test set*.
+
+| Model | Mean Predicted Probability |
+|:------|:---------------------------:|
+| Logistic L2 (Tuned) | 0.4210 |
+| XGBoost (Optimized) | 0.1570 |
+| Bagging (Logistic Base) | 0.1665 |
+
+- **Final Mean (Ensemble): 0.2155**  
+- **Train Mean: 0.1616 | Diff: 0.0539**
+
+Dari tabel di atas rata-rata probabilitas yang stabil dan selisih kecil antara *train* dan *test* menunjukkan bahwa model tidak mengalami *data drift*.
+
+### Final Model Decision
+Berdasarkan keseluruhan hasil evaluasi, model *Bagging (Logistic Base)* ditetapkan sebagai model akhir yang akan digunakan pada tahap deployment.
+Pemilihan ini didasarkan pada keseimbangan antara akurasi, stabilitas performa, dan tingkat kompleksitas model yang relatif rendah.  
+Pertimbangan utama:
+- Validation AUC tertinggi (0.8345) dengan gap sangat kecil (+0.0020).  
+- Stabilitas performa antar *fold* dan pada data *test*.  
+- Kompleksitas rendah dan interpretabilitas tinggi dibanding model berbasis pohon.  
+
+Pada tahap ini, model digunakan untuk memprediksi probabilitas karyawan berhenti bekerja (attrition) pada data *test.* Untuk memahami sebaran hasil prediksi dan memverifikasi konsistensi distribusi antara data pelatihan (train) dan pengujian (test), dilakukan visualisasi berupa histogram dan boxplot berikut.
+![Submission] (https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/submission.png?raw=true)
+Dari hasil visualisasi data di atas, dapat ditarik kesimpulan sebagai berikut : 
+- Model menunjukkan distribusi prediksi yang stabil dan tidak mengalami pergeseran besar antara train dan test set.
+- Sebagian besar prediksi berada di area probabilitas rendah hingga menengah, yang menunjukkan model cenderung konservatif dan tidak terlalu agresif dalam memprediksi karyawan sebagai berhenti.
+
+Secara keseluruhan, *Bagging (Logistic Base)* memberikan keseimbangan optimal antara performa, stabilitas, dan interpretabilitas, sehingga layak dijadikan sebagai model akhir untuk implementasi pada sistem prediksi employee attrition di tahap produksi.
+
+---
+## Save Best Model
+```python
+filename = '../model/Bagging_Logistic_Base__v1.pkl'
+---
