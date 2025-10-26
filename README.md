@@ -54,6 +54,5 @@
     - [Langkah Selanjutnya](#langkah-selanjutnya)
 
 ## Domain Proyek : Manajemen Sumber Daya
-<p align="center">
-  <img src="images/employe-attrition.png" alt="Employee Attrition" width="450"/>
-</p>
+![Employee Attrition](https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/employe-attrition.png?raw=true)
+
