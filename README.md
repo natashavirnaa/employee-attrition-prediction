@@ -646,7 +646,6 @@ sedangkan XGBoost menghasilkan nilai yang sangat mendekati (ROC-AUC 0.8217).
 Kedua model ini kemudian digunakan untuk dibandingkan lebih lanjut pada tahap Model Testing and Evaluation
 
 ## Model Testing and Evaluation
-
 Tahap ini bertujuan untuk membandingkan performa berbagai model yang telah melalui proses pelatihan dan tuning,  
 serta menentukan model terbaik yang akan digunakan untuk prediksi akhir dan tahap deployment.  
 Evaluasi dilakukan secara bertahap melalui proses **training**, **comparison**, **calibration**, **ensemble**, dan **testing**.
@@ -735,7 +734,7 @@ Pertimbangan utama:
 - Kompleksitas rendah dan interpretabilitas tinggi dibanding model berbasis pohon.  
 
 Pada tahap ini, model digunakan untuk memprediksi probabilitas karyawan berhenti bekerja (attrition) pada data *test.* Untuk memahami sebaran hasil prediksi dan memverifikasi konsistensi distribusi antara data pelatihan (train) dan pengujian (test), dilakukan visualisasi berupa histogram dan boxplot berikut.
-![Submission] (https://github.com/natashavirnaa/employee-attrition-prediction/blob/main/image/submission.png?raw=true)
+
 Dari hasil visualisasi data di atas, dapat ditarik kesimpulan sebagai berikut : 
 - Model menunjukkan distribusi prediksi yang stabil dan tidak mengalami pergeseran besar antara train dan test set.
 - Sebagian besar prediksi berada di area probabilitas rendah hingga menengah, yang menunjukkan model cenderung konservatif dan tidak terlalu agresif dalam memprediksi karyawan sebagai berhenti.
