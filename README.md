@@ -113,6 +113,57 @@ Dengan implementasi solusi ini, manfaat yang diharapkan antara lain:
 - **Perbaikan Lingkungan Kerja:** Memberikan insight terhadap faktor-faktor yang menyebabkan ketidakpuasan dan menurunkan motivasi kerja.
 - **Produktivitas yang Lebih Stabil:** Menjaga kontinuitas tim dan mengurangi dampak negatif dari pergantian karyawan.
 
+---
+## Data Understanding
+### Sumber Data
+Dataset yang digunakan dalam proyek ini diperoleh dari situs Kaggle. Dataset ini berisi data profil dan lingkungan kerja karyawan yang digunakan untuk memprediksi kemungkinan attrition atau keluar dari perusahaan.
+
+Dataset terdiri dari dua berkas utama, yaitu train.csv dengan 1.173 data latih dan test.csv dengan 295 data uji. Setiap data memuat informasi mengenai berbagai variabel yang berpotensi memengaruhi keputusan karyawan untuk tetap bertahan atau keluar.
+
+Secara keseluruhan, terdapat **35 variabel**, termasuk satu variabel target yaitu Attrition. Variabel ini menunjukkan apakah seorang karyawan keluar (1) atau tetap bekerja (0). Sebagian kecil karyawan termasuk dalam kategori attrition, sehingga terdapat ketidakseimbangan kelas *(class imbalance)* yang menjadi tantangan dalam proses pelatihan model prediktif.  
+
+## Deskripsi Fitur
+| Nama Fitur | Deskripsi | Tipe Data |
+|-------------|------------|-----------|
+| id | ID unik karyawan untuk identifikasi. | `object` |
+| Age | Usia karyawan. | `int64` |
+| BusinessTravel | Frekuensi perjalanan dinas karyawan. | `object` |
+| DailyRate | Gaji harian. | `int64` |
+| Department | Departemen tempat karyawan bekerja. | `object` |
+| DistanceFromHome | Jarak tempat tinggal karyawan ke kantor. | `int64` |
+| Education | Tingkat pendidikan (1 = Below College, 2 = College, 3 = Bachelor, 4 = Master, 5 = Doctor). | `int64` |
+| EducationField | Bidang studi terakhir karyawan. | `object` |
+| EmployeeCount | Jumlah karyawan. | `int64` |
+| EmployeeNumber | Nomor unik karyawan dalam sistem HR. | `int64` |
+| EnvironmentSatisfaction | Tingkat kepuasan terhadap lingkungan kerja (1 = Low, 2 = Medium, 3 = High, 4 = Very High). | `int64` |
+| Gender | Jenis kelamin karyawan. | `object` |
+| HourlyRate | Upah per jam. | `int64` |
+| JobInvolvement | Tingkat keterlibatan pekerjaan (1 = Low, 2 = Medium, 3 = High, 4 = Very High). | `int64` |
+| JobLevel | Level jabatan karyawan. | `int64` |
+| JobRole | Posisi/jabatan spesifik karyawan. | `object` |
+| JobSatisfaction | Tingkat kepuasan pekerjaan (1 = Low, 2 = Medium, 3 = High, 4 = Very High). | `int64` |
+| MaritalStatus | Status pernikahan karyawan. | `object` |
+| MonthlyIncome | Gaji bulanan karyawan. | `int64` |
+| MonthlyRate | Tarif bulanan karyawan. | `int64` |
+| NumCompaniesWorked | Jumlah perusahaan tempat karyawan pernah bekerja sebelumnya. | `int64` |
+| Over18 | Status usia di atas 18 tahun. | `object` |
+| OverTime | Status lembur karyawan. | `object` |
+| PercentSalaryHike | Persentase kenaikan gaji tahunan terakhir. | `int64` |
+| PerformanceRating | Penilaian kinerja terakhir. | `int64` |
+| RelationshipSatisfaction | Tingkat kepuasan terhadap hubungan kerja (1 = Low, 2 = Good, 3 = Excellent, 4 = Outstanding). | `int64` |
+| StandardHours | Jam kerja standar (selalu 80 dalam dataset). | `int64` |
+| StockOptionLevel | Level kepemilikan saham perusahaan. | `int64` |
+| TotalWorkingYears | Total tahun pengalaman kerja. | `int64` |
+| TrainingTimesLastYear | Jumlah pelatihan yang diikuti selama setahun terakhir. | `int64` |
+| WorkLifeBalance | Tingkat keseimbangan kerja-hidup (1 = Bad, 2 = Good, 3 = Better, 4 = Best). | `int64` |
+| YearsAtCompany | Total tahun bekerja di perusahaan saat ini. | `int64` |
+| YearsInCurrentRole | Total tahun di posisi/jabatan saat ini. | `int64` |
+| YearsSinceLastPromotion | Tahun sejak promosi terakhir. | `int64` |
+| YearsWithCurrManager | Tahun bekerja dengan manajer saat ini. | `int64` |
+| Attrition | Target: apakah karyawan keluar dari perusahaan (1 = Yes, 0 = No). | `object` |
+
+
+
 
 
 
